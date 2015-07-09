@@ -2,37 +2,28 @@
 
 namespace app\models;
 
-class User extends \yii\base\Object implements \yii\web\IdentityInterface
-{
-    public $id;
-    public $username;
-    public $password;
-    public $authKey;
-    public $accessToken;
+use \yii\db\ActiveRecord;
+use Yii;
+use app\models\Deck;
 
-    private static $users = [
-        '100' => [
-            'id' => '100',
-            'username' => 'admin',
-            'password' => 'admin',
-            'authKey' => 'test100key',
-            'accessToken' => '100-token',
-        ],
-        '101' => [
-            'id' => '101',
-            'username' => 'demo',
-            'password' => 'demo',
-            'authKey' => 'test101key',
-            'accessToken' => '101-token',
-        ],
-    ];
+class User extends ActiveRecord implements \yii\web\IdentityInterface
+{
+    const STATUS_ACTIVE = 1;
+    const STATUS_INACTIVE = 0;
+
+    public $userPasswordCheck;
+
+    public static function tableName()
+    {
+        return 'users';
+    }
 
     /**
      * @inheritdoc
      */
     public static function findIdentity($id)
     {
-        return isset(self::$users[$id]) ? new static(self::$users[$id]) : null;
+        return static::findOne($id);
     }
 
     /**
@@ -52,18 +43,12 @@ class User extends \yii\base\Object implements \yii\web\IdentityInterface
     /**
      * Finds user by username
      *
-     * @param  string      $username
+     * @param  string      $userEmail
      * @return static|null
      */
-    public static function findByUsername($username)
+    public static function findByUserEmail($userEmail)
     {
-        foreach (self::$users as $user) {
-            if (strcasecmp($user['username'], $username) === 0) {
-                return new static($user);
-            }
-        }
-
-        return null;
+        return static::find()->where(['userEmail' => $userEmail])->one();
     }
 
     /**
@@ -71,7 +56,7 @@ class User extends \yii\base\Object implements \yii\web\IdentityInterface
      */
     public function getId()
     {
-        return $this->id;
+        return $this->userId;
     }
 
     /**
@@ -79,25 +64,123 @@ class User extends \yii\base\Object implements \yii\web\IdentityInterface
      */
     public function getAuthKey()
     {
-        return $this->authKey;
+        return $this->userAuthKey;
     }
 
     /**
      * @inheritdoc
      */
-    public function validateAuthKey($authKey)
+    public function validateAuthKey($userAuthKey)
     {
-        return $this->authKey === $authKey;
+        return $this->userAuthKey === $userAuthKey;
     }
 
     /**
-     * Validates password
+     * @inherit
      *
-     * @param  string  $password password to validate
-     * @return boolean if password provided is valid for current user
+     * @return array
      */
-    public function validatePassword($password)
+    public function scenarios()
     {
-        return $this->password === $password;
+        return [
+            'default' => ['userFirstname', 'userLastname', 'userNickname', 'userEmail', 'userPassword', 'userAuthKey'],
+            'create' => ['userNickname', 'userEmail', 'userPassword', 'userPasswordCheck'],
+            'login' => ['userEmail', 'userPassword'],
+            'facebook' => ['userFirstname', 'userLastname', 'userNickname', 'userEmail', 'userPassword', 'userAuthKey'],
+        ];
+    }
+
+    /**
+     * @inherit
+     *
+     * @return array
+     */
+    public function rules()
+    {
+        return [
+            [['userEmail'], 'email'],
+            [['userEmail'], 'unique', 'on' => ['create']],
+            [['userPassword', 'userPasswordCheck'], 'string', 'min' => 6],
+            [['userFirstname', 'userLastname', 'userNickname', 'userPassword', 'userPasswordCheck', 'userToken', 'userAuthKey'], 'string'],
+            [['userNickname', 'userEmail', 'userPassword', 'userPasswordCheck'], 'required', 'on' => ['create']],
+            [['password'], 'compare', 'compareAttribute' => 'passwordCheck', 'when' => function($model) {
+                return $model->userPassword !== null;
+            }],
+
+            //login scenario
+            [['userEmail', 'userPassword'], 'required', 'on' => ['login']],
+            [['userEmail'], 'required', 'on' => ['facebook']],
+        ];
+    }
+
+    /**
+     * @inherit
+     *
+     * @return array
+     */
+    public function attributeLabels()
+    {
+        return [
+            'userFirstname' => 'Prénom',
+            'userLastname' => 'Nom',
+            'userNickname' => 'Pseudo',
+            'userEmail' => 'Email',
+            'userPassword' => 'Mot de passe',
+            'userPasswordCheck' => 'Confirmation du mot de passe',
+        ];
+    }
+
+    /**
+     * hash password to store
+     *
+     * @return void
+     */
+    public function hashPassword()
+    {
+        $this->userPassword = Yii::$app->getSecurity()->generatePasswordHash($this->userPassword);
+    }
+
+    /**
+     * validate password input with stored
+     *
+     * @param $password
+     * @param $hash
+     * @throws \yii\base\InvalidConfigException
+     *
+     * @return bool
+     */
+    public function validatePassword($password, $hash)
+    {
+        if (Yii::$app->getSecurity()->validatePassword($password, $hash) === false) {
+            return false;
+        }
+        return true;
+    }
+
+    public function beforeSave($insert)
+    {
+        if (parent::beforeSave($insert) === true) {
+            $currentDateTime = Yii::$app->formatter->asDateTime(strtotime('NOW'), date('Y-m-d H:i:s'));
+
+            if ($this->isNewRecord === true) {
+                $this->userDateCreate = $currentDateTime;
+                $this->userStatus = self::STATUS_ACTIVE;
+            } else {
+                $this->userDateUpdate = $currentDateTime;
+            }
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * get the deck of the user
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getDecks()
+    {
+        return $this->hasMany(Deck::className(), ['deckId' => 'deckId']);
     }
 }
