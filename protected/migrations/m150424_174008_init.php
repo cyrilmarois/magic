@@ -49,7 +49,7 @@ class m150424_174008_init extends Migration
             'userId' => Schema::TYPE_PK,
             'userFirstname' => Schema::TYPE_STRING . ' NULL DEFAULT NULL',
             'userLastname' => Schema::TYPE_STRING . ' NULL DEFAULT NULL',
-            'userNickame' => Schema::TYPE_STRING .  ' UNIQUE NOT NULL',
+            'userNickname' => Schema::TYPE_STRING .  ' UNIQUE NOT NULL',
             'userEmail' => Schema::TYPE_STRING . ' UNIQUE NOT NULL',
             'userPassword' => Schema::TYPE_STRING . ' NULL DEFAULT NULL',
             'userStatus' => Schema::TYPE_BOOLEAN . ' DEFAULT 0',
