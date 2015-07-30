@@ -30,7 +30,7 @@ class m150424_174008_init extends Migration
             'setYear' => 'YEAR NOT NULL',
         ]);
 
-        $this->createTable('deck', [
+        $this->createTable('decks', [
             'deckId' => Schema::TYPE_PK,
             'deckName' => Schema::TYPE_STRING . ' NOT NULL',
             'deckColor' => Schema::TYPE_STRING . ' NULL DEFAULT NULL',
