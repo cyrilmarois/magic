@@ -18,7 +18,7 @@ AppAsset::register($this);
         <meta charset="<?php echo Yii::$app->charset ?>">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <?php echo Html::csrfMetaTags() ?>
-        <title><?php echo Html::encode($this->title) ?></title>
+        <title><?php echo Html::encode(Yii::$app->name) ?></title>
         <?php $this->head() ?>
     </head>
     <body>
@@ -27,7 +27,7 @@ AppAsset::register($this);
         <div class="wrap">
             <?php
                 NavBar::begin([
-                    'brandLabel' => 'My Company',
+                    'brandLabel' => Yii::$app->name,
                     'brandUrl' => Yii::$app->homeUrl,
                     'options' => [
                         'class' => 'navbar-inverse navbar-fixed-top',
@@ -36,9 +36,7 @@ AppAsset::register($this);
                 echo Nav::widget([
                     'options' => ['class' => 'navbar-nav navbar-right'],
                     'items' => [
-                        ['label' => 'Home', 'url' => ['/site/index']],
-                        ['label' => 'About', 'url' => ['/site/about']],
-                        ['label' => 'Contact', 'url' => ['/site/contact']],
+                        ['label' => 'Cartes', 'url' => ['/card/index']],
                         Yii::$app->user->isGuest ?
                             ['label' => 'Mon espace', 'url' => [Yii::$app->user->loginUrl]] :
                             ['label' => 'Me déconnecter',
@@ -70,7 +68,7 @@ AppAsset::register($this);
 
         <footer class="footer">
             <div class="container">
-                <p class="pull-left">&copy; My Company <?php echo date('Y') ?></p>
+                <p class="pull-left">&copy; <?php echo Yii::$app->name; ?> <?php echo date('Y') ?></p>
                 <p class="pull-right"><?php echo Yii::powered() ?></p>
             </div>
         </footer>
