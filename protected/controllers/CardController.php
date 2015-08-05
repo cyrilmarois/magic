@@ -93,4 +93,28 @@ class CardController extends Controller
             throw $e;
         }
     }
+
+    /**
+     * @param $cardId
+     * @return string
+     * @throws Exception
+     */
+    public function actionView($cardId)
+    {
+        try {
+            Yii::trace('Trace :'.__METHOD__, __METHOD__);
+
+            $card = Card::findOne($cardId);
+            if ($card === null) {
+                throw new NotFoundHttpException();
+            }
+
+            return $this->render('view', [
+                'card' => $card,
+            ]);
+        } catch(Exception $e) {
+            Yii::error($e->getMessage(), __METHOD__);
+            throw $e;
+        }
+    }
 }
