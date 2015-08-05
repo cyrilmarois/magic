@@ -39,6 +39,43 @@ class DeckController extends Controller
         ]);
     }
 
+    /**
+     * deck creation
+     *
+     * @return null|string|\yii\web\Response
+     */
+    public function actionCreate()
+    {
+        $response = null;
+        $colors = Deck::getColors();
+        $formDeck = new Deck(['scenario' => 'create']);
+        $sets = Set::find()->all();
+        $cards = [];
+        foreach($sets as $set){
+            $cards[] = Card::find()->where(['setId' => $set->setId])->all();
+        }
+
+        if (($formDeck->load($_POST) === true) && ($formDeck->validate() === true)) {
+            $formDeck->userId = Yii::$app->user->identity->userId;
+            $formDeck->deckColor = implode('-', $formDeck->deckColor);
+            $status = $formDeck->save();
+            if ($status === true) {
+                $response = $this->redirect(['/card/index']);
+            }
+        }
+
+        if ($response === null) {
+            $response = $this->render('create', [
+                'deck' => $formDeck,
+                'sets' => $sets,
+                'cards' => $cards,
+                'colors' => $colors
+            ]);
+        }
+
+        return $response;
+    }
+
     public function behaviors()
     {
         return [
