@@ -76,6 +76,168 @@ class DeckController extends Controller
         return $response;
     }
 
+    /**
+     * display deck informations
+     *
+     * @param $deckId
+     * @return string
+     * @throws Exception
+     * @throws \Exception
+     *
+     * @return void
+     */
+    public function actionView($deckId, $filter = null)
+    {
+        try {
+            Yii::trace('Trace :'.__METHOD__, __METHOD__);
+
+            //ob_start();
+            $response = null;
+            $deck = Deck::findOne($deckId);
+            if ($deck === null) {
+                throw new NotFoundHttpException;
+            }
+
+            $manas = Utilities::getMana();
+            $colors = explode('-', $deck->deckColor);
+            $deckManas = '';
+            foreach($colors as $color) {
+                $deckManas .= $manas[$color];
+            }
+            if ($filter === 'types') {
+                $response = $this->filterByTypes($deckId);
+            } elseif ($filter === 'cost') {
+                $response = $this->filterByCost($deckId);
+            }
+            /* $content = ob_get_contents();
+             ob_end_clean();*/
+
+            if ($response === null) {
+                $response = $this->render('view', [
+                    'deck' => $deck,
+                    'content' => $this->filterByTypes($deckId),
+                ]);
+            }
+            return $response;
+        } catch(Exception $e) {
+            Yii::error($e->getMessage(), __METHOD__);
+            throw $e;
+        }
+    }
+
+    /**
+     * @param $deckId
+     * @return string
+     * @throws Exception
+     * @throws \Exception
+     */
+    public function filterByTypes($deckId)
+    {
+        try {
+            Yii::trace('Trace :'.__METHOD__, __METHOD__);
+
+            $deck = Deck::findOne($deckId);
+            if ($deck === null) {
+                throw new NotFoundHttpException;
+            }
+            $deckCards = [];
+            $totalCards = 0;
+            $totalCreaturesCards = 0;
+            $totalLandsCards = 0;
+            $totalSpellsCards = 0;
+            $cardTypes = Card::getCardTypes();
+            $cards = $deck->getCards()->all();
+
+            foreach($cards as $card) {
+                $type = 'spells';
+
+                $sql = Yii::$app->db->createCommand('SELECT * FROM decksCards WHERE cardId = '.$card->cardId.' AND deckId = '.$deck->deckId)->queryOne();
+                if ($sql === false) {
+                    throw new NotFoundHttpException();
+                }
+                $totalCards += $sql['cardNumber'];
+                foreach($cardTypes as $index => $cardType) {
+                    if (in_array($card->cardType, $cardType) === true) {
+                        $type = $index;
+                        if ($type === 'creatures') {
+                            $totalCreaturesCards += $sql['cardNumber'];
+                        } elseif ($type === 'lands') {
+                            $totalLandsCards += $sql['cardNumber'];
+                        } else {
+                            $totalSpellsCards += $sql['cardNumber'];
+                        }
+                        break;
+                    }
+                }
+                if ($type === 'creatures') {
+                    $deckCards[$type]['totalCards'] = $totalCreaturesCards;
+                } elseif ($type === 'lands') {
+                    $deckCards[$type]['totalCards'] = $totalLandsCards;
+                } else {
+                    $deckCards[$type]['totalCards'] = $totalSpellsCards;
+                }
+
+                $card->cardNumber =(int) $sql['cardNumber'];
+                $deckCards[$type]['cards'][$card->cardId]  = $card;
+            }
+
+            return $this->renderPartial('_types', [
+                'deck' => $deck,
+                'deckCards' => $deckCards,
+                'totalCards' => $totalCards,
+            ]);
+        } catch(Exception $e) {
+            Yii::error($e->getMessage(), __METHOD__);
+            throw $e;
+        }
+    }
+    /**
+     *
+     * display deck card by cost
+     *
+     * @param $deckId
+     * @throws Exception
+     * @throws \Exception
+     *
+     * @return string
+     */
+    public function filterByCost($deckId)
+    {
+        try {
+            Yii::trace('Trace :'.__METHOD__, __METHOD__);
+
+            $deck = Deck::findOne($deckId);
+            if ($deck === null) {
+                throw new NotFoundHttpException;
+            }
+            $manas = Utilities::getMana();
+            $colors = explode('-', $deck->deckColor);
+            $deckManas = '';
+            foreach($colors as $color) {
+                $deckManas .= $manas[$color];
+            }
+
+            $cards = $deck->getCards()->all();
+            $deckCards = [];
+
+            foreach($cards as $card) {
+                $deckCards[$card->getTotalCost()][$card->cardId] = $card;
+            }
+            //sort ASC
+            arsort($deckCards);
+
+            return $this->renderPartial('_mana', [
+                'deck' => $deck,
+                'deckCards' => $deckCards,
+                'deckManas' => $deckManas,
+            ]);
+        } catch(Exception $e) {
+            Yii::error($e->getMessage(), __METHOD__);
+            throw $e;
+        }
+    }
+
+
     public function behaviors()
     {
         return [
