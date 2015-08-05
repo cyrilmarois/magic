@@ -27,8 +27,8 @@ use yii\helpers\Html;
                 </div>
                 <div class="row">
                     <div class="col-md-12">
-                        <?php echo $card->cardType; ?>
                         <?php
+                            echo $card->cardType;
                             if (in_array($card->cardType, Card::getCardTypes()) === true) {
                                 echo $card->cardMonsterEnergy;
                             }
@@ -44,7 +44,7 @@ use yii\helpers\Html;
                     <div class="col-md-12">
                         <?php
                             if (Yii::$app->user->identity === null) {
-                                echo 'Vous devez être connecté si vous souhaitez pouvoir ajouter la carte à l\'un de vos decks';
+                                echo 'Connectez vous pour ajouter la carte à l\'un de vos decks';
                             } else {
                                 //user is logged
                                 echo Html::activeHiddenInput($card, 'cardId');
