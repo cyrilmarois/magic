@@ -6,6 +6,7 @@
  * Time: 14:35
  */
 
+use yii\helpers\Url;
 use yii\helpers\Html;
 
 $js = <<<EOF
@@ -14,8 +15,8 @@ $js = <<<EOF
         self = $(this);
         $.ajax({
             type: 'GET',
-            url: 'http://192.168.1.33/sites/magic/web/signin.php?r='+$(this).parent('a').data('url'),
-            data: {deckId: $(this).parent('a').data('deckid')}
+            url: $(this).parent('a').data('url'),
+            data: { deckId: $(this).parent('a').data('deckid') }
         }).done(function(data) {
             self.parents('.row').remove();
         });
@@ -36,7 +37,7 @@ $this->registerJs($js, \yii\web\View::POS_READY);
         <div class="row">
             <div class="col-md-12">
                 <?php echo Html::a($deck->deckName, ['/deck/view', 'deckId' => $deck->deckId]); ?>
-                <?php echo Html::a(Html::tag('span', '', ['class' => 'glyphicon glyphicon-remove']), '#', ['data-url' => '/deck/delete', 'data-deckid' => $deck->deckId]); ?>
+                <?php echo Html::a(Html::tag('span', '', ['class' => 'glyphicon glyphicon-remove']), '#', ['data-url' => Url::to(['/deck/delete'], true), 'data-deckid' => $deck->deckId ]); ?>
             </div>
         </div>
     <?php endforeach; ?>
