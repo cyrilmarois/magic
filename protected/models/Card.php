@@ -117,7 +117,7 @@ class Card extends ActiveRecord
     {
         $set = Set::findOne($this->setId);
         $setName = Utilities::specialClean($set->setName);
-        return Yii::getAlias('@web/../images/cards/'.$setName.'/'.$this->cardPictureVO);
+        return Yii::getAlias('@web/images/cards/'.$setName.'/'.$this->cardPictureVO);
     }
 
     /**
