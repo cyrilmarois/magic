@@ -237,7 +237,37 @@ class DeckController extends Controller
         }
     }
 
+    /**
+     * delete the deckId
+     *
+     * @param $deckId the deckId
+     *
+     * @throws Exception
+     * @throws \Exception
+     *
+     * @return void
+     * @since  XXX
+     */
+    public function actionDelete($deckId)
+    {
+        try {
+            Yii::trace('Trace :'.__METHOD__, __METHOD__);
 
+            $deck = Deck::findOne($deckId);
+            if ($deck === null) {
+                throw new NotFoundHttpException('Le deck n\'existe pas', 404);
+            }
+
+            $deck->delete();
+        } catch(Exception $e) {
+            Yii::error($e->getMessage(), __METHOD__);
+            throw $e;
+        }
+    }
+
+    /**
+     * @inherit
+     */
     public function behaviors()
     {
         return [
