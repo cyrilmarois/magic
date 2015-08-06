@@ -117,4 +117,35 @@ class CardController extends Controller
             throw $e;
         }
     }
+
+    /**
+     * fetch card according to data
+     */
+    public function actionFetch()
+    {
+        try {
+            Yii::trace('Trace :'.__METHOD__);
+
+            $rows = '';
+            if ((isset($_POST['formData']) === true) && (strlen($_POST['formData']) > 2 === true)) {
+                $str = $_POST['formData'];
+
+                $subQuery = (new \yii\db\Query())->from('sets');
+                $rows = (new Query())
+                    ->select(['cardId', 'cardNameVO', 'setIconUrl'])
+                    ->from('cards')
+                    ->leftJoin(['s' => $subQuery], 's.setId = cards.setId')
+                    ->where(['like', 'cardNameVO', $str])
+                    ->all();
+            }
+
+            $response = Yii::$app->response;
+            $response->format = Response::FORMAT_JSON;
+            $response->data = $rows;
+            return $response;
+        } catch (Exception $e) {
+            Yii::error($e->getMessage(), __METHOD__);
+            throw $e;
+        }
+    }
 }

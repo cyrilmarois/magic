@@ -2,6 +2,7 @@
 use app\assets\AppAsset;
 use app\widgets\Sidebar;
 use yii\helpers\Html;
+use yii\helpers\Url;
 use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
 use yii\widgets\Breadcrumbs;
@@ -20,6 +21,10 @@ AppAsset::register($this);
         <?php echo Html::csrfMetaTags() ?>
         <title><?php echo Html::encode(Yii::$app->name) ?></title>
         <?php $this->head() ?>
+        <script>
+            var fetchCardUrl = "<?php echo Url::to(['/card/fetch']); ?>";
+            var cardUrl = "<?php echo Url::to(['/card/view']); ?>";
+        </script>
     </head>
     <body>
 
@@ -33,6 +38,15 @@ AppAsset::register($this);
                         'class' => 'navbar-inverse navbar-fixed-top',
                     ],
                 ]);
+            ?>
+            <ul class="navbar-form navbar-left">
+                <li class="dropdown">
+                    <input type="text" class="form-control" placeholder="Chercher une carte" id="search">
+                    <ul class="dropdown-menu" role="menu">
+                    </ul>
+                </li>
+            </ul>
+            <?php
                 echo Nav::widget([
                     'options' => ['class' => 'navbar-nav navbar-right'],
                     'items' => [
