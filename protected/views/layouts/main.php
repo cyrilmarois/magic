@@ -23,6 +23,7 @@ AppAsset::register($this);
         <?php $this->head() ?>
         <script>
             var fetchCardUrl = "<?php echo Url::to(['/card/fetch']); ?>";
+            var fetchCardsUrl = "<?php echo Url::to(['/card/fetch-cards']); ?>";
             var cardUrl = "<?php echo Url::to(['/card/view']); ?>";
         </script>
     </head>

@@ -8,11 +8,13 @@
 
 use yii\helpers\Html;
 
-$offset = count($cards);
 
+
+$offset = count($cards);
 ?>
 <div class="row">
     <div class="col-md-5">
+        <?php echo Html::activeHiddenInput($set, 'setId'); ?>
         <h1><?php echo $setName; ?></h1>
     </div>
     <div class="pull-right">
