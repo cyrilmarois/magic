@@ -148,4 +148,35 @@ class CardController extends Controller
             throw $e;
         }
     }
+    /**
+     * fetch card according to data
+     */
+    public function actionFetchCards($setId, $offset, $displayMode)
+    {
+        try {
+            Yii::trace('Trace :'.__METHOD__);
+
+            $set = Set::findOne($setId);
+            if ($set === null) {
+                throw new NotFoundHttpException('Set inexistant');
+            }
+            $decksName = [];
+            if (Yii::$app->user->identity !== null) {
+                $decks = Deck::find()->where(['userId' => Yii::$app->user->identity->userId])->orderBy('deckName')->all();
+                foreach($decks as $deck) {
+                    $decksName[$deck->deckId] = $deck->deckName;
+                }
+            }
+            $cards = Card::find()->where(['setId' => $set->setId])->offset($offset)->limit(50)->all();
+
+            return $this->renderPartial($displayMode, [
+                'cards' => $cards,
+                'decksName' => $decksName,
+            ]);
+        } catch (Exception $e) {
+            Yii::error($e->getMessage(), __METHOD__);
+            throw $e;
+        }
+    }
+
 }
