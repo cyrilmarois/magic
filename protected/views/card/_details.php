@@ -10,7 +10,6 @@ use app\models\Card;
 use yii\helpers\Html;
 
 ?>
-<?php echo Html::hiddenInput('displayMode', '_details'); ?>
 <?php foreach($cards as $i => $card): ?>
     <?php if ($i % 3 === 0): ?>
         <div class="row">

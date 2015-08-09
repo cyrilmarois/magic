@@ -84,7 +84,7 @@ class CardController extends Controller
                 'set' => $set,
                 'setName' => $setName,
                 'cards' => $cards,
-                'viewMode' => $viewMode,
+                'displayMode' => $displayMode,
                 'decksName' => $decksName,
                 'offset' => 50,
             ]);
@@ -169,7 +169,7 @@ class CardController extends Controller
             }
             $cards = Card::find()->where(['setId' => $set->setId])->offset($offset)->limit(50)->all();
 
-            return $this->renderPartial($displayMode, [
+            return $this->renderPartial('_'.$displayMode, [
                 'cards' => $cards,
                 'decksName' => $decksName,
             ]);
