@@ -13,7 +13,7 @@ use yii\helpers\Html;
     <?php if ($i % 5 === 0): ?>
         <div class="row">
     <?php endif; ?>
-        <div class="col-md-2">
+        <div class="col-md-2 cards">
             <?php echo Html::activeHiddenInput($card, 'cardId'); ?>
             <?php echo Html::img($card->getPicture(), ['alt' => $card->cardNameVO, 'class' => 'card']); ?>
         </div>

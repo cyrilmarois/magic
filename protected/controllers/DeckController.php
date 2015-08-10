@@ -265,6 +265,38 @@ class DeckController extends Controller
         }
     }
 
+
+    /**
+     * add card form
+     */
+    public function actionAddCardForm()
+    {
+        if (Yii::$app->user->identity !== null) {
+            $decksName = [];
+            $decks = Deck::find()->where(['userId' => Yii::$app->user->identity->userId])->orderBy('deckName')->all();
+            foreach($decks as $deck) {
+                $decksName[$deck->deckId] = $deck->deckName;
+            }
+            $str = '';
+            $str .= '<div class="col-md-11 cardForm">';
+            $str .=  Html::dropDownList('deckName', null, $decksName,['prompt' => 'Sélectionner un deck']);
+            $str .= '<br>';
+            $str .= Html::textInput('cardNumber', null);
+            $str .= '<br>';
+            $str .= Html::button('Ajouter', ['class' => 'addCard']);
+            $str .= '</div>';
+        } else {
+            $str = '';
+            $str .= '<div class="col-md-11 cardForm">';
+            $str .= Html::tag('span', 'Vous devez être connecté si vous souhaitez pouvoir ajouter la carte à l\'un de vos decks');
+            $str .= '</div>';
+        }
+
+        $response = Yii::$app->response;
+        $response->format = \yii\web\Response::FORMAT_HTML;
+        $response->content = $str;
+    }
+
     /**
      * @inherit
      */

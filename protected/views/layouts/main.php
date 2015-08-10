@@ -22,9 +22,12 @@ AppAsset::register($this);
         <title><?php echo Html::encode(Yii::$app->name) ?></title>
         <?php $this->head() ?>
         <script>
-            var fetchCardUrl = "<?php echo Url::to(['/card/fetch']); ?>";
-            var fetchCardsUrl = "<?php echo Url::to(['/card/fetch-cards']); ?>";
-            var cardUrl = "<?php echo Url::to(['/card/view']); ?>";
+            var fetchCardUrl = "<?php echo Url::to(['/card/fetch'], true); ?>";
+            var fetchCardsUrl = "<?php echo Url::to(['/card/fetch-cards'], true); ?>";
+            var cardUrl = "<?php echo Url::to(['/card/view'], true); ?>";
+            var addCardUrl = "<?php echo Url::to(['/deck/add-card'], true); ?>";
+            var addCardFormUrl = "<?php echo Url::to(['/deck/add-card-form'], true); ?>";
+            var defaultCardUrl = "<?php echo Yii::getAlias('@web/images/defaultCard.jpg'); ?>";
         </script>
     </head>
     <body>
