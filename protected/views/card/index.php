@@ -17,14 +17,14 @@ use yii\helpers\Html;
             [
                 'format' => 'html',
                 'value' => function($data) {
-                    return Html::a(Html::img(Html::decode($data->setLogoUrl)), ['/set/view', 'id' => $data->setId]).Html::img(Html::decode($data->setIconUrl));
+                    return Html::a(Html::img(Html::decode($data->setLogoUrl)), ['/card/list-cards', 'setId' => $data->setId]).Html::img(Html::decode($data->setIconUrl));
                 }
             ],
             [
                 'attribute' => 'setName',
                 'format' => 'html',
                 'value' => function($data) {
-                    return Html::a($data->setName, ['/set/view', 'id' => $data->setId]);
+                    return Html::a($data->setName, ['/card/list-cards', 'setId' => $data->setId]);
                 }
             ],
             [
@@ -34,12 +34,6 @@ use yii\helpers\Html;
                 }
             ],
             'setYear',
-            [
-                'format' => 'html',
-                'value' => function($data) {
-                    return Html::a('Voir les cartes', ['/card/list-cards', 'setId' => $data->setId]);
-                }
-            ]
         ]
 
     ]);
