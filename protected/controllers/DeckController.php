@@ -108,11 +108,7 @@ class DeckController extends Controller
                 $response = $this->filterByTypes($deckId);
             } elseif ($filter === 'cost') {
                 $response = $this->filterByCost($deckId);
-            }
-            /* $content = ob_get_contents();
-             ob_end_clean();*/
-
-            if ($response === null) {
+            } elseif ($response === null) {
                 $response = $this->render('view', [
                     'deck' => $deck,
                     'content' => $this->filterByTypes($deckId),

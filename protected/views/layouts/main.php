@@ -25,9 +25,12 @@ AppAsset::register($this);
             var fetchCardUrl = "<?php echo Url::to(['/card/fetch'], true); ?>";
             var fetchCardsUrl = "<?php echo Url::to(['/card/fetch-cards'], true); ?>";
             var cardUrl = "<?php echo Url::to(['/card/view'], true); ?>";
+            var deckViewUrl = "<?php echo Url::to(['/deck/view'], true); ?>";
             var addCardUrl = "<?php echo Url::to(['/deck/add-card'], true); ?>";
             var addCardFormUrl = "<?php echo Url::to(['/deck/add-card-form'], true); ?>";
             var defaultCardUrl = "<?php echo Yii::getAlias('@web/images/defaultCard.jpg'); ?>";
+            var filterByCostUrl = "<?php echo Url::to(['/deck/filterByCost']); ?>";
+            var filterByTypesUrl = "<?php echo Url::to(['/deck/filterByTypes']); ?>";
         </script>
     </head>
     <body>
