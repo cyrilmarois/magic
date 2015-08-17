@@ -8,9 +8,8 @@ $(document).ready(function() {
         }).success(function(data) {
             //alert($(data).length);
             if (data !== "") {
-                $(data).insertBefore($('.container').children('.row').last());
+                $(data).insertAfter($('.main').children('.row').last());
                 var offset = $('img.card').length;
-                $('.row .col-md-12 a').data('offset', offset);
                 $(window).bind('scroll', bindScroll);
             } else {
                 //no more cards to fetch
@@ -29,7 +28,7 @@ $(document).ready(function() {
 
     $(window).scroll(bindScroll);
 
-
+    /*
     $('body').on('mouseenter', '.col-md-2.cards', function() {
         console.log('enter');
         if ($('.cardForm').length > 0) {
@@ -51,6 +50,7 @@ $(document).ready(function() {
         $(this).children('.cardForm').remove();
         $(this).children('img').attr('src', cardImgUrl);
     });
+    */
 
     /** add card into a deck **/
     $('body').on('click', '.addCard', function(evt) {
