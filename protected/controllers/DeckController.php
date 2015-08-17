@@ -238,6 +238,40 @@ class DeckController extends Controller
     }
 
     /**
+     * add card to the deck selected
+     *
+     * @throws \yii\db\Exception
+     */
+    public function actionAddCard()
+    {
+        if ((isset($_POST['deckId']) === true) && (isset($_POST['cardId']) === true) && (isset($_POST['cardNumber']) === true)) {
+            $sql = Yii::$app->db->createCommand('SELECT * FROM decksCards WHERE cardId = '.$_POST['cardId'].' AND deckId = '.$_POST['deckId'])->queryOne();
+            if ($sql === false) {
+                Yii::$app->db->createCommand()->insert('decksCards', [
+                    'deckId' => $_POST['deckId'],
+                    'cardId' => $_POST['cardId'],
+                    'cardNumber' => $_POST['cardNumber'],
+                ])->execute();
+            } else {
+                $newCardNumber = (int) $sql['cardNumber'] + (int)$_POST['cardNumber'];
+                Yii::$app->db->createCommand()->update('decksCards', [
+                    'deckId' => $_POST['deckId'],
+                    'cardId' => $_POST['cardId'],
+                    'cardNumber' => $newCardNumber,
+                ], [
+                    'deckId' => $_POST['deckId'],
+                    'cardId' => $_POST['cardId'],
+                ])->execute();
+            }
+
+            $response = Yii::$app->response;
+            $response->statusCode = 200;
+            $response->format = \yii\web\Response::FORMAT_HTML;
+            $response->data = '<div class="col-md-12"><span class="success">La carte a bien été ajouté</span></div>';
+        }
+    }
+
+    /**
      * delete the deckId
      *
      * @param $deckId the deckId
