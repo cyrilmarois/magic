@@ -8,11 +8,14 @@
 
 use yii\helpers\Html;
 
-$offset = count($cards);
 
+
+$offset = count($cards);
 ?>
 <div class="row">
     <div class="col-md-5">
+        <?php echo Html::activeHiddenInput($set, 'setId'); ?>
+        <?php echo Html::hiddenInput('displayMode', $displayMode); ?>
         <h1><?php echo $setName; ?></h1>
     </div>
     <div class="pull-right">
@@ -32,7 +35,7 @@ $offset = count($cards);
 </div>
 
 <?php
-   echo $this->render($viewMode, [
+   echo $this->render('_'.$displayMode, [
        'cards' => $cards,
        'decksName' => $decksName,
    ]);

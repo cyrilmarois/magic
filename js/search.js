@@ -7,7 +7,7 @@ function fetch(self) {
     })
     .success(function(data) {
         $('.dropdown-menu').children().remove();
-        if (data === '') {
+        if (data.length == 0) {
             var str = '<li>No results</li>'
             $('.dropdown-menu').append(str);
         } else {

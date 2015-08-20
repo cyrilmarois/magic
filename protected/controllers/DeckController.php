@@ -108,11 +108,7 @@ class DeckController extends Controller
                 $response = $this->filterByTypes($deckId);
             } elseif ($filter === 'cost') {
                 $response = $this->filterByCost($deckId);
-            }
-            /* $content = ob_get_contents();
-             ob_end_clean();*/
-
-            if ($response === null) {
+            } elseif ($response === null) {
                 $response = $this->render('view', [
                     'deck' => $deck,
                     'content' => $this->filterByTypes($deckId),
@@ -238,6 +234,40 @@ class DeckController extends Controller
     }
 
     /**
+     * add card to the deck selected
+     *
+     * @throws \yii\db\Exception
+     */
+    public function actionAddCard()
+    {
+        if ((isset($_POST['deckId']) === true) && (isset($_POST['cardId']) === true) && (isset($_POST['cardNumber']) === true)) {
+            $sql = Yii::$app->db->createCommand('SELECT * FROM decksCards WHERE cardId = '.$_POST['cardId'].' AND deckId = '.$_POST['deckId'])->queryOne();
+            if ($sql === false) {
+                Yii::$app->db->createCommand()->insert('decksCards', [
+                    'deckId' => $_POST['deckId'],
+                    'cardId' => $_POST['cardId'],
+                    'cardNumber' => $_POST['cardNumber'],
+                ])->execute();
+            } else {
+                $newCardNumber = (int) $sql['cardNumber'] + (int)$_POST['cardNumber'];
+                Yii::$app->db->createCommand()->update('decksCards', [
+                    'deckId' => $_POST['deckId'],
+                    'cardId' => $_POST['cardId'],
+                    'cardNumber' => $newCardNumber,
+                ], [
+                    'deckId' => $_POST['deckId'],
+                    'cardId' => $_POST['cardId'],
+                ])->execute();
+            }
+
+            $response = Yii::$app->response;
+            $response->statusCode = 200;
+            $response->format = \yii\web\Response::FORMAT_HTML;
+            $response->data = '<div class="col-md-12"><span class="success">La carte a bien été ajouté</span></div>';
+        }
+    }
+
+    /**
      * delete the deckId
      *
      * @param $deckId the deckId
@@ -263,6 +293,38 @@ class DeckController extends Controller
             Yii::error($e->getMessage(), __METHOD__);
             throw $e;
         }
+    }
+
+
+    /**
+     * add card form
+     */
+    public function actionAddCardForm()
+    {
+        if (Yii::$app->user->identity !== null) {
+            $decksName = [];
+            $decks = Deck::find()->where(['userId' => Yii::$app->user->identity->userId])->orderBy('deckName')->all();
+            foreach($decks as $deck) {
+                $decksName[$deck->deckId] = $deck->deckName;
+            }
+            $str = '';
+            $str .= '<div class="col-md-11 cardForm">';
+            $str .=  Html::dropDownList('deckName', null, $decksName,['prompt' => 'Sélectionner un deck']);
+            $str .= '<br>';
+            $str .= Html::textInput('cardNumber', null);
+            $str .= '<br>';
+            $str .= Html::button('Ajouter', ['class' => 'addCard']);
+            $str .= '</div>';
+        } else {
+            $str = '';
+            $str .= '<div class="col-md-11 cardForm">';
+            $str .= Html::tag('span', 'Vous devez être connecté si vous souhaitez pouvoir ajouter la carte à l\'un de vos decks');
+            $str .= '</div>';
+        }
+
+        $response = Yii::$app->response;
+        $response->format = \yii\web\Response::FORMAT_HTML;
+        $response->content = $str;
     }
 
     /**
