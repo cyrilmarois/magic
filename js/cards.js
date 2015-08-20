@@ -8,8 +8,16 @@ $(document).ready(function() {
         }).success(function(data) {
             //alert($(data).length);
             if (data !== "") {
-                $(data).insertAfter($('.main').children('.row').last());
-                var offset = $('img.card').length;
+                var container;
+                if ($('.main').children('.row').last().length > 0) {
+                    container = $('.main').children('.row').last();
+                } else if ($('.main').children('.row').last().length > 0) {
+                    container = $('.container').children('.row').last();
+                }
+
+                if (typeof(container) != "undefined") {
+                    $(data).insertAfter(container);
+                }
                 $(window).bind('scroll', bindScroll);
             } else {
                 //no more cards to fetch
