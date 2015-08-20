@@ -17,14 +17,10 @@ use yii\helpers\Html;
             [
                 'format' => 'html',
                 'value' => function($data) {
-                    return Html::a(Html::img(Html::decode($data->setLogoUrl)), ['/card/list-cards', 'setId' => $data->setId]).Html::img(Html::decode($data->setIconUrl));
-                }
-            ],
-            [
-                'attribute' => 'setName',
-                'format' => 'html',
-                'value' => function($data) {
-                    return Html::a($data->setName, ['/card/list-cards', 'setId' => $data->setId]);
+                    $str = Html::a(Html::img(Html::decode($data->setLogoUrl)), ['/card/list-cards', 'setId' => $data->setId]).Html::img(Html::decode($data->setIconUrl));
+                    $str .= '<br>';
+                    $str .= $data->setName;
+                    return $str;
                 }
             ],
             [
