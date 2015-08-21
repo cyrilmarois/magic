@@ -3,7 +3,6 @@
 use app\models\Card;
 use yii\db\Schema;
 use yii\db\Migration;
-use yii\db\Exception;
 
 class m150820_112357_addColorCard extends Migration
 {
