@@ -18,7 +18,7 @@ class m150820_112357_addColorCard extends Migration
     // Use safeUp/safeDown to run migration code within a transaction
     public function safeUp()
     {
-        //$this->addColumn('cards', 'cardColor', Schema::TYPE_STRING);
+        $this->addColumn('cards', 'cardColor', Schema::TYPE_STRING);
 
         $cards = Card::find()->all();
         foreach($cards as $card) {
