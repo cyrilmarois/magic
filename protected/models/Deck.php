@@ -9,7 +9,6 @@
 namespace app\models;
 
 use app\components\Utilities;
-use app\models\User;
 use \yii\db\ActiveRecord;
 use Yii;
 
@@ -117,7 +116,7 @@ class Deck extends ActiveRecord
      */
     public static function getColors()
     {
-        $colors = ['b', 'g', 'r', 'u', 'w'];
+        $colors = array_keys(Utilities::getColors());
         $manas = Utilities::getMana();
         $res = [];
         foreach($colors as $color) {

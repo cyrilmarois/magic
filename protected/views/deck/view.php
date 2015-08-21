@@ -12,7 +12,7 @@ $this->registerJsFile(Yii::getAlias('@web/js/deck.js'), ['position' => \yii\web\
 ?>
 <h1><?php echo $deck->deckName /*.'('./$totalCards.')'. $deckManas*/; ?></h1>
 <?php echo Html::activeHiddenInput($deck, 'deckId'); ?>
-Filtrer par : <?php echo Html::dropDownList('filter', 'types', ['types' => 'types', 'cost' => 'cost']); ?>
+Filtrer par : <?php echo Html::dropDownList('filter', 'types', ['types' => 'types', 'cost' => 'cost', 'colors' => 'colors']); ?>
 
 <div class="deck">
     <?php

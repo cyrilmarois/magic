@@ -79,4 +79,19 @@ class Utilities
         $str = str_replace($a, $b, $name);
         return preg_replace(['/(\s|-|_|\'|\/)+/'], ['-'], $str);
     }
+
+    /**
+     * @return array
+     */
+    public static function getColors()
+    {
+        return [
+            'b' => 'black',
+            'g' => 'green',
+            'o' => 'multicolor',
+            'r' => 'red',
+            'u' => 'blue',
+            'w' => 'white',
+        ];
+    }
 }
