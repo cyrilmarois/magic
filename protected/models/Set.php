@@ -163,7 +163,7 @@ class Set extends ActiveRecord
     public function getCards($limit = null)
     {
         return $this->hasMany(Card::className(), ['setId' => 'setId'])
-            ->limit($limit)
-            ->orderBy('cardNameVO');
+            ->orderBy(['cardColor' => SORT_ASC, 'cardNameVO' => SORT_ASC])
+            ->limit($limit);
     }
 }
