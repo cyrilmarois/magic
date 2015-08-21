@@ -28,7 +28,7 @@ $(document).ready(function() {
 
     /** bind/unbind scroll **/
     function bindScroll() {
-        if ($(window).scrollTop() + $(window).height() > $(document).height() - 100) {
+        if ($(window).scrollTop() + $(window).height() > $(document).height() - 200) {
             $(window).unbind('scroll');
             loadMore();
         }
