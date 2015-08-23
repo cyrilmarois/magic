@@ -46,11 +46,11 @@ class Utilities
     public static function getMana()
     {
         return [
-            'b' => Html::img(Yii::getAlias('@web/images/mana/black.gif')),
-            'u' => Html::img(Yii::getAlias('@web/images/mana/blue.gif')),
-            'g' => Html::img(Yii::getAlias('@web/images/mana/green.gif')),
-            'r' => Html::img(Yii::getAlias('@web/images/mana/red.gif')),
-            'w' => Html::img(Yii::getAlias('@web/images/mana/white.gif')),
+            'b' => Html::img(Yii::getAlias('@web/images/mana/black.png')),
+            'u' => Html::img(Yii::getAlias('@web/images/mana/blue.png')),
+            'g' => Html::img(Yii::getAlias('@web/images/mana/green.png')),
+            'r' => Html::img(Yii::getAlias('@web/images/mana/red.png')),
+            'w' => Html::img(Yii::getAlias('@web/images/mana/white.png')),
             '0' => '',
             '1' => Html::img(Yii::getAlias('@web/images/mana/1.gif')),
             '2' => Html::img(Yii::getAlias('@web/images/mana/2.gif')),
