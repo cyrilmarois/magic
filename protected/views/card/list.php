@@ -8,8 +8,7 @@
 
 use yii\helpers\Html;
 
-
-
+$this->registerJsFile('@web/js/cards.js', ['position' => \yii\web\View::POS_END, 'depends' => [\yii\web\JqueryAsset::className()]]);
 $offset = count($cards);
 ?>
 <div class="row">

@@ -21,7 +21,7 @@ use yii\helpers\Html;
             </div>
             <div class="col-md-7">
                 <div class="row">
-                    <div class="col-md-12">
+                    <div class="col-md-12 manas">
                         <?php echo $card->cardNameVO .' '.$card->getCostPictures(); ?>
                     </div>
                 </div>
@@ -36,8 +36,8 @@ use yii\helpers\Html;
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-12">
-                        <?php echo $card->cardDescriptionVO; ?>
+                    <div class="col-md-12 manas">
+                        <?php echo Html::decode($card->replaceDesriptionPicto($card->cardDescriptionVO)); ?>
                     </div>
                 </div>
                 <div class="row">
