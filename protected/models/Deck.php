@@ -9,6 +9,7 @@
 namespace app\models;
 
 use app\components\Utilities;
+use yii\helpers\Html;
 use \yii\db\ActiveRecord;
 use Yii;
 
@@ -121,7 +122,7 @@ class Deck extends ActiveRecord
         $res = [];
         foreach($colors as $color) {
             if (isset($manas[$color]) === true) {
-                $res[$color] = $manas[$color];
+                $res[$color] = Html::img($manas[$color]);
             }
         }
 
