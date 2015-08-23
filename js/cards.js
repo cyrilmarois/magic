@@ -11,7 +11,7 @@ $(document).ready(function() {
                 var container;
                 if ($('.main').children('.row').last().length > 0) {
                     container = $('.main').children('.row').last();
-                } else if ($('.main').children('.row').last().length > 0) {
+                } else if ($('.container').children('.row').last().length > 0) {
                     container = $('.container').children('.row').last();
                 }
 
