@@ -46,22 +46,32 @@ class Utilities
     public static function getMana()
     {
         return [
-            'b' => Html::img(Yii::getAlias('@web/images/mana/black.gif')),
-            'u' => Html::img(Yii::getAlias('@web/images/mana/blue.gif')),
-            'g' => Html::img(Yii::getAlias('@web/images/mana/green.gif')),
-            'r' => Html::img(Yii::getAlias('@web/images/mana/red.gif')),
-            'w' => Html::img(Yii::getAlias('@web/images/mana/white.gif')),
+            'b' => Yii::getAlias('@web/images/mana/black.png'),
+            'u' => Yii::getAlias('@web/images/mana/blue.png'),
+            'g' => Yii::getAlias('@web/images/mana/green.png'),
+            'r' => Yii::getAlias('@web/images/mana/red.png'),
+            'w' => Yii::getAlias('@web/images/mana/white.png'),
             '0' => '',
-            '1' => Html::img(Yii::getAlias('@web/images/mana/1.gif')),
-            '2' => Html::img(Yii::getAlias('@web/images/mana/2.gif')),
-            '3' => Html::img(Yii::getAlias('@web/images/mana/3.gif')),
-            '4' => Html::img(Yii::getAlias('@web/images/mana/4.gif')),
-            '5' => Html::img(Yii::getAlias('@web/images/mana/5.gif')),
-            '6' => Html::img(Yii::getAlias('@web/images/mana/6.gif')),
-            '7' => Html::img(Yii::getAlias('@web/images/mana/7.gif')),
-            '8' => Html::img(Yii::getAlias('@web/images/mana/8.gif')),
-            '9' => Html::img(Yii::getAlias('@web/images/mana/9.gif')),
-            'x' => Html::img(Yii::getAlias('@web/images/mana/X.gif')),
+            '1' => Yii::getAlias('@web/images/mana/1.gif'),
+            '2' => Yii::getAlias('@web/images/mana/2.gif'),
+            '3' => Yii::getAlias('@web/images/mana/3.gif'),
+            '4' => Yii::getAlias('@web/images/mana/4.gif'),
+            '5' => Yii::getAlias('@web/images/mana/5.gif'),
+            '6' => Yii::getAlias('@web/images/mana/6.gif'),
+            '7' => Yii::getAlias('@web/images/mana/7.gif'),
+            '8' => Yii::getAlias('@web/images/mana/8.gif'),
+            '9' => Yii::getAlias('@web/images/mana/9.gif'),
+            'x' => Yii::getAlias('@web/images/mana/X.gif'),
+            'bg' => Yii::getAlias('@web/images/mana/BG.gif'),
+            'gu' => Yii::getAlias('@web/images/mana/GU.gif'),
+            'gw' => Yii::getAlias('@web/images/mana/GW.gif'),
+            'rg' => Yii::getAlias('@web/images/mana/RG.gif'),
+            'rw' => Yii::getAlias('@web/images/mana/RW.gif'),
+            'ub' => Yii::getAlias('@web/images/mana/UB.gif'),
+            'ur' => Yii::getAlias('@web/images/mana/UR.gif'),
+            'wb' => Yii::getAlias('@web/images/mana/WB.gif'),
+            'wu' => Yii::getAlias('@web/images/mana/WU.gif'),
+            'tap' => Yii::getAlias('@web/images/mana/tap.gif'),
         ];
     }
 
@@ -78,5 +88,20 @@ class Utilities
         $b = array('A', 'A', 'A', 'A', 'A', 'A', 'AE', 'C', 'E', 'E', 'E', 'E', 'I', 'I', 'I', 'I', 'D', 'N', 'O', 'O', 'O', 'O', 'O', 'O', 'U', 'U', 'U', 'U', 'Y', 's', 'a', 'a', 'a', 'a', 'a', 'a', 'ae', 'c', 'e', 'e', 'e', 'e', 'i', 'i', 'i', 'i', 'n', 'o', 'o', 'o', 'o', 'o', 'o', 'u', 'u', 'u', 'u', 'y', 'y', 'A', 'a', 'A', 'a', 'A', 'a', 'C', 'c', 'C', 'c', 'C', 'c', 'C', 'c', 'D', 'd', 'D', 'd', 'E', 'e', 'E', 'e', 'E', 'e', 'E', 'e', 'E', 'e', 'G', 'g', 'G', 'g', 'G', 'g', 'G', 'g', 'H', 'h', 'H', 'h', 'I', 'i', 'I', 'i', 'I', 'i', 'I', 'i', 'I', 'i', 'IJ', 'ij', 'J', 'j', 'K', 'k', 'L', 'l', 'L', 'l', 'L', 'l', 'L', 'l', 'l', 'l', 'N', 'n', 'N', 'n', 'N', 'n', 'n', 'O', 'o', 'O', 'o', 'O', 'o', 'OE', 'oe', 'R', 'r', 'R', 'r', 'R', 'r', 'S', 's', 'S', 's', 'S', 's', 'S', 's', 'T', 't', 'T', 't', 'T', 't', 'U', 'u', 'U', 'u', 'U', 'u', 'U', 'u', 'U', 'u', 'U', 'u', 'W', 'w', 'Y', 'y', 'Y', 'Z', 'z', 'Z', 'z', 'Z', 'z', 's', 'f', 'O', 'o', 'U', 'u', 'A', 'a', 'I', 'i', 'O', 'o', 'U', 'u', 'U', 'u', 'U', 'u', 'U', 'u', 'U', 'u', 'A', 'a', 'AE', 'ae', 'O', 'o');
         $str = str_replace($a, $b, $name);
         return preg_replace(['/(\s|-|_|\'|\/)+/'], ['-'], $str);
+    }
+
+    /**
+     * @return array
+     */
+    public static function getColors()
+    {
+        return [
+            'b' => 'black',
+            'g' => 'green',
+            'o' => 'multicolor',
+            'r' => 'red',
+            'u' => 'blue',
+            'w' => 'white',
+        ];
     }
 }

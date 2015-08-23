@@ -59,6 +59,12 @@ class CardController extends Controller
         try {
             Yii::trace('Trace :'.__METHOD__, __METHOD__);
 
+            $setName = null;
+            $set = Set::findOne($setId);
+            if ($set === null) {
+                throw new NotFoundHttpException();
+            }
+
             $decksName = [];
             if (Yii::$app->user->identity !== null) {
                 $decks = Deck::find()->where(['userId' => Yii::$app->user->identity->userId])->orderBy('deckName')->all();
@@ -67,18 +73,9 @@ class CardController extends Controller
                 }
             }
 
-            $setName = null;
-            $set = Set::findOne($setId);
-            if ($set !== null) {
-                $htmlSets = Set::getSets();
-                $setName = $htmlSets[$set->setName];
-                $cards = $set->getCards(50)->all();
-            }
-
-            $viewMode = '_list';
-            if ($displayMode === 'details') {
-                $viewMode = '_details';
-            }
+            $htmlSets = Set::getSets();
+            $setName = $htmlSets[$set->setName];
+            $cards = $set->getCards(50)->all();
 
             return $this->render('list', [
                 'set' => $set,

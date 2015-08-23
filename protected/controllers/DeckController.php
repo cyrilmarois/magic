@@ -108,7 +108,9 @@ class DeckController extends Controller
                 $response = $this->filterByTypes($deckId);
             } elseif ($filter === 'cost') {
                 $response = $this->filterByCost($deckId);
-            } elseif ($response === null) {
+            } elseif ($filter === 'colors') {
+                $response = $this->filterByColors($deckId);
+            } else {
                 $response = $this->render('view', [
                     'deck' => $deck,
                     'content' => $this->filterByTypes($deckId),
@@ -187,13 +189,12 @@ class DeckController extends Controller
             throw $e;
         }
     }
+
     /**
-     *
      * display deck card by cost
      *
      * @param $deckId
      * @throws Exception
-     * @throws \Exception
      *
      * @return string
      */
@@ -226,6 +227,44 @@ class DeckController extends Controller
                 'deck' => $deck,
                 'deckCards' => $deckCards,
                 'deckManas' => $deckManas,
+            ]);
+        } catch(Exception $e) {
+            Yii::error($e->getMessage(), __METHOD__);
+            throw $e;
+        }
+    }
+
+    /**
+     * display deck card by color
+     *
+     * @param $deckId
+     * @throws Exception
+     *
+     * @return string
+     */
+    public function filterByColors($deckId)
+    {
+        try {
+            Yii::trace('Trace :'.__METHOD__, __METHOD__);
+
+            $deck = Deck::findOne($deckId);
+            if ($deck === null) {
+                throw new NotFoundHttpException;
+            }
+            $colors = Utilities::getColors();
+            $cards = $deck->getCards()->all();
+            $deckCards = [];
+
+            foreach($cards as $card) {
+                $cardColor = (isset($colors[$card->cardColor]) === true) ? $colors[$card->cardColor] : 'uncolor';
+                $deckCards[$cardColor][$card->cardId] = $card;
+            }
+            //sort ASC
+            arsort($deckCards);
+
+            return $this->renderPartial('_color', [
+                'deck' => $deck,
+                'deckCards' => $deckCards,
             ]);
         } catch(Exception $e) {
             Yii::error($e->getMessage(), __METHOD__);
@@ -294,7 +333,6 @@ class DeckController extends Controller
             throw $e;
         }
     }
-
 
     /**
      * add card form

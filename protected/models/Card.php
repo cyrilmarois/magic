@@ -9,6 +9,7 @@
 namespace app\models;
 
 use app\components\Utilities;
+use yii\helpers\Html;
 use yii\db\ActiveRecord;
 use Yii;
 
@@ -79,7 +80,7 @@ class Card extends ActiveRecord
         $manaPictos = Utilities::getMana();
         $strlen = strlen($this->cardCost);
         for ($i = 0; $i < $strlen; $i++) {
-            $str .= ($i === 0) ? $manaPictos[$this->cardCost[$i]] : '.'.$manaPictos[$this->cardCost[$i]];
+            $str .= ($i === 0) ? Html::img($manaPictos[$this->cardCost[$i]]) : '.'.Html::img($manaPictos[$this->cardCost[$i]]);
         }
         return $str;
     }
@@ -164,5 +165,54 @@ class Card extends ActiveRecord
                 'world enchantment' => 'world enchantment',
             ],
         ];
+    }
+
+    /**
+     * parse description to replace icon text by his symbol
+     *
+     * @param $str
+     * @return mixed the string formatter
+     */
+    public function replaceDesriptionPicto($str)
+    {
+        $manas = Utilities::getMana();
+        $result = preg_replace([
+            '/\/handlers\/image\.ashx\?size=small&amp;name=x&amp;type=symbol/',
+            '/\/handlers\/image\.ashx\?size=small&amp;name=tap&amp;type=symbol/',
+            '/\/handlers\/image\.ashx\?size=small&amp;name=1&amp;type=symbol/',
+            '/\/handlers\/image\.ashx\?size=small&amp;name=2&amp;type=symbol/',
+            '/\/handlers\/image\.ashx\?size=small&amp;name=3&amp;type=symbol/',
+            '/\/handlers\/image\.ashx\?size=small&amp;name=4&amp;type=symbol/',
+            '/\/handlers\/image\.ashx\?size=small&amp;name=5&amp;type=symbol/',
+            '/\/handlers\/image\.ashx\?size=small&amp;name=6&amp;type=symbol/',
+            '/\/handlers\/image\.ashx\?size=small&amp;name=7&amp;type=symbol/',
+            '/\/handlers\/image\.ashx\?size=small&amp;name=8&amp;type=symbol/',
+            '/\/handlers\/image\.ashx\?size=small&amp;name=9&amp;type=symbol/',
+            '/\/handlers\/image\.ashx\?size=small&amp;name=b&amp;type=symbol/',
+            '/\/handlers\/image\.ashx\?size=small&amp;name=g&amp;type=symbol/',
+            '/\/handlers\/image\.ashx\?size=small&amp;name=r&amp;type=symbol/',
+            '/\/handlers\/image\.ashx\?size=small&amp;name=u&amp;type=symbol/',
+            '/\/handlers\/image\.ashx\?size=small&amp;name=w&amp;type=symbol/',
+        ], [
+            $manas['x'],
+            $manas['tap'],
+            $manas['1'],
+            $manas['2'],
+            $manas['3'],
+            $manas['4'],
+            $manas['5'],
+            $manas['6'],
+            $manas['7'],
+            $manas['8'],
+            $manas['9'],
+            $manas['b'],
+            $manas['g'],
+            $manas['r'],
+            $manas['u'],
+            $manas['w'],
+        ],
+        $str);
+
+        return $result;
     }
 }

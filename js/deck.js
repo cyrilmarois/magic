@@ -13,15 +13,17 @@ $(document).ready(function() {
             url = filterByTypesUrl;
         } else if (filterVal === 'cost') {
             url = filterByCostUrl;
+        } else if (filterVal === 'colors') {
+            url = filterByColorsUrl;
         }
         $.ajax({
             type: 'GET',
             url: deckViewUrl,
             data: { deckId: $("#deck-deckid").val(), filter: filterVal }
         })
-            .done(function(data) {
-                $('.deck').children().remove();
-                $(data).appendTo($('.deck'));
-            });
+        .done(function(data) {
+            $('.deck').children().remove();
+            $(data).appendTo($('.deck'));
+        });
     });
 });
