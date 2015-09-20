@@ -61,8 +61,8 @@ class m150424_174008_init extends Migration
         ]);
 
         $this->addForeignKey('cardSetId', 'cards', 'setId', 'sets', 'setId', 'CASCADE', 'CASCADE');
-        $this->addForeignKey('deckUserId', 'deck', 'userId', 'users', 'userId', 'CASCADE', 'CASCADE');
-        $this->addForeignKey('cardDeckId', 'decksCards', 'deckId', 'deck', 'deckId', 'CASCADE', 'CASCADE');
+        $this->addForeignKey('deckUserId', 'decks', 'userId', 'users', 'userId', 'CASCADE', 'CASCADE');
+        $this->addForeignKey('cardDeckId', 'decksCards', 'deckId', 'decks', 'deckId', 'CASCADE', 'CASCADE');
         $this->addForeignKey('decksCardId', 'decksCards', 'cardId', 'cards', 'cardId', 'CASCADE', 'CASCADE');
     }
 
