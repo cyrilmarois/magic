@@ -7,6 +7,7 @@
  */
 
 use yii\helpers\Html;
+$errors = [];
 ?>
 <div class="col-md-3 col-md-offset-4">
     <div class="row">
@@ -16,7 +17,20 @@ use yii\helpers\Html;
             <?php echo Html::activeHiddenInput($user, 'userFirstname', ['class' => 'form-control']); ?>
             <?php echo Html::activeHiddenInput($user, 'userLastname', ['class' => 'form-control']); ?>
             <?php echo Html::activeHiddenInput($user, 'userAuthKey', ['class' => 'form-control']); ?>
-
+            <?php
+                if ($user->hasErrors() === true) {
+                    foreach($user->getErrors() as $userErrors) {
+                        if (is_array($userErrors) === false) {
+                            $errors[] = $userErrors;
+                        } else {
+                            foreach ($userErrors as $error) {
+                                $errors[] = $error;
+                            }
+                        }
+                    }
+                    echo Html::tag('div', implode('<br>', $errors), ['class' => 'alert alert-danger', 'role' => 'alert']);
+                }
+            ?>
             <div class="form-group">
                 <?php echo Html::activeLabel($user, 'userEmail', ['class' => 'col-md-4']); ?>
                 <div class="col-md-8">
