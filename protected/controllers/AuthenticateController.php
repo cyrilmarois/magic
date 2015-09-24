@@ -31,10 +31,13 @@ class AuthenticateController extends Controller
             $formUser = new User(['scenario' => 'login']);
 
             if (($formUser->load($_POST) === true) && ($formUser->validate() === true)) {
-                $user = User::findByUserEmail($formUser->userEmail);
-                $status = XWebUser::authenticate($user->userEmail, $formUser->userPassword);
-                if (($status === XWebUser::NO_ERROR) && (Yii::$app->user->login($user, 3600*24) === true)) {
+                $status = XWebUser::authenticate($formUser->userEmail, $formUser->userPassword);
+                if (($status === XWebUser::NO_ERROR) && (Yii::$app->user->login($formUser, 3600 * 24) === true)) {
                     $response = $this->redirect(['/card/index']);
+                } elseif($status === XWebUser::UNKNOWN_USER_ERROR) {
+                    $formUser->addError('userEmail', 'Utilisateur inconnu');
+                } elseif($status === XWebUser::USER_PASSWORD_ERROR) {
+                    $formUser->addError('userPassword', 'Mot de passe invalide');
                 }
             }
             if ($response === null) {
