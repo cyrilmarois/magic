@@ -98,18 +98,18 @@ class User extends ActiveRecord implements \yii\web\IdentityInterface
     public function rules()
     {
         return [
-            [['userEmail'], 'email'],
-            [['userEmail'], 'unique', 'on' => ['create']],
+            ['userEmail', 'email'],
+            ['userEmail', 'unique', 'on' => ['create']],
             [['userPassword', 'userPasswordCheck'], 'string', 'min' => 6],
             [['userFirstname', 'userLastname', 'userNickname', 'userPassword', 'userPasswordCheck', 'userToken', 'userAuthKey'], 'string'],
             [['userNickname', 'userEmail', 'userPassword', 'userPasswordCheck'], 'required', 'on' => ['create']],
-            [['password'], 'compare', 'compareAttribute' => 'passwordCheck', 'when' => function($model) {
+            ['password', 'compare', 'compareAttribute' => 'passwordCheck', 'when' => function($model) {
                 return $model->userPassword !== null;
             }],
 
             //login scenario
             [['userEmail', 'userPassword'], 'required', 'on' => ['login']],
-            [['userEmail'], 'required', 'on' => ['facebook']],
+            ['userEmail', 'required', 'on' => ['facebook']],
         ];
     }
 
