@@ -80,7 +80,7 @@ class AuthenticateController extends Controller
                 if ($status === true) {
                     $status = XWebUser::authenticate($user->userEmail, $formUser->userPassword);
                     if (($status === XWebUser::NO_ERROR) && (Yii::$app->user->login($user, 3600*24) === true)) {
-                        $response = $this->redirect([Yii::$app->user->returnUrl]);
+                        $response = $this->redirect(['/card/index']);
                     }
                 }
             }
